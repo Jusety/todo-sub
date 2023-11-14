@@ -84,7 +84,7 @@ const Task: React.FC<TaskProps> = (props) => {
                         +
                     </button>
                     <button
-                        style={{ right: "3vh" }}
+                        style={{ right: "3vh", top: "0.1vh" }}
                         className="dlt-btn pos-rel"
                         onClick={() =>
                             props.deleteTodo(
