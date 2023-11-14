@@ -1,5 +1,6 @@
 import React, { ChangeEvent, useState } from "react";
 import Task from "./Task";
+import uuid from "react-uuid";
 
 interface TaskFieldProps {}
 
@@ -7,6 +8,7 @@ interface todo {
     task: string;
     edit: boolean;
     checked: boolean;
+    id: any;
 }
 
 const TaskField: React.FC<TaskFieldProps> = () => {
@@ -15,16 +17,17 @@ const TaskField: React.FC<TaskFieldProps> = () => {
             task: "",
             edit: false,
             checked: false,
+            id: uuid(),
         };
     };
 
     const [todo, setTodo] = useState(getInitialObj());
     const [notes, setNotes] = useState<todo[]>([]);
 
-    const editTodo = (id: number, par: string) =>
-        setNotes(
-            notes.map((note: any, index: number) => {
-                if (id === index) {
+    const editTodo = (id: number, par: string, varNote: any, setVarNote: any) =>
+        setVarNote(
+            varNote.map((note: any) => {
+                if (id === note.id) {
                     return { ...note, [par]: !note[par] };
                 } else {
                     return note;
@@ -32,10 +35,15 @@ const TaskField: React.FC<TaskFieldProps> = () => {
             })
         );
 
-    const changeTask = (id: number, e: ChangeEvent<HTMLInputElement>) => {
-        setNotes(
-            notes.map((note: todo, index: number) => {
-                if (id === index) {
+    const changeTask = (
+        id: number,
+        e: ChangeEvent<HTMLInputElement>,
+        varNote: any,
+        setVarNote: any
+    ) => {
+        setVarNote(
+            varNote.map((note: todo) => {
+                if (id === note.id) {
                     return { ...note, task: e.target?.value };
                 } else {
                     return note;
@@ -44,24 +52,29 @@ const TaskField: React.FC<TaskFieldProps> = () => {
         );
     };
 
-    const deleteTodo = (id: number) => {
-        setNotes(notes.filter((note, index) => id !== index && note));
+    const deleteTodo = (id: number, varNote: any, setVarNote: any) => {
+        setVarNote(varNote.filter((note: any) => id !== note.id && note));
     };
 
-    const getValue = (id: number) => {
-        notes.reduce((res: any, note: any, index: number) =>
-            index === id ? note.task : res
+    const getValue = (id: number, varNote: any) => {
+        varNote.reduce((res: any, note: any) =>
+            note.id === id ? note.task : res
         );
     };
 
-    const addTodo = () => {
-        setNotes([...notes, todo]);
+    const addTodo = (varNote: any, setVarNote: any) => {
+        setVarNote([...varNote, todo]);
         setTodo(getInitialObj());
     };
 
-    const keyUpChange = (id: number, e: React.KeyboardEvent<HTMLElement>) => {
+    const keyUpChange = (
+        id: number,
+        e: React.KeyboardEvent<HTMLElement>,
+        varNote: any,
+        setVarNote: any
+    ) => {
         if (e.key === "Enter") {
-            editTodo(id, "edit");
+            editTodo(id, "edit", varNote, setVarNote);
         }
     };
 
@@ -69,18 +82,21 @@ const TaskField: React.FC<TaskFieldProps> = () => {
         setTodo({ ...todo, task: e.target.value });
     };
 
-    const tasks = notes.map((note, index) => (
+    const tasks = notes.map((note) => (
         <Task
+            notes={notes}
+            setNotes={setNotes}
             keyUpChange={keyUpChange}
-            id={index}
+            id={note.id}
             checked={note.checked}
             edit={note.edit}
             taskTitle={note.task}
-            key={index}
+            key={note.id}
             deleteTodo={deleteTodo}
             getValue={getValue}
             changeTask={changeTask}
             editTodo={editTodo}
+            addTodo={addTodo}
         />
     ));
 
@@ -92,14 +108,11 @@ const TaskField: React.FC<TaskFieldProps> = () => {
                     <input
                         value={todo.task}
                         type="text"
-                        onKeyUp={(e) => {
-                            if (e.key === "Enter") {
-                                createTodo(e);
-                            }
-                        }}
                         onChange={(e) => createTodo(e)}
                     />
-                    <button onClick={() => addTodo()}>Add Todo</button>
+                    <button onClick={() => addTodo(notes, setNotes)}>
+                        Add Todo
+                    </button>
                 </div>
                 <ul className="list">{tasks}</ul>
             </div>

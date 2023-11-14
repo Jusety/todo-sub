@@ -61,7 +61,7 @@ input {
 .list {
     width: 40vh;
     margin-top: 3vh;
-    margin-left: 12vh;
+    margin-left: 10vh;
 }
 
 li input {
@@ -69,6 +69,7 @@ li input {
 }
 
 li {
+    margin-top: 3vh;
     display: block;
     word-wrap: break-word;
     margin-bottom: 2vh;
