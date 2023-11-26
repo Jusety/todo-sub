@@ -104,13 +104,16 @@ const TaskField: React.FC<TaskFieldProps> = () => {
         <div className="main">
             <div>
                 <div className="inner">
-                    <h1>Todo List</h1>
+                    <h1 className="header">Todo List</h1>
                     <input
                         value={todo.task}
                         type="text"
                         onChange={(e) => createTodo(e)}
                     />
-                    <button onClick={() => addTodo(notes, setNotes)}>
+                    <button
+                        className="add-btn pos-rel"
+                        onClick={() => addTodo(notes, setNotes)}
+                    >
                         Add Todo
                     </button>
                 </div>

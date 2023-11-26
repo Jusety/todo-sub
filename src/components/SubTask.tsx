@@ -43,8 +43,7 @@ const Task: React.FC<SubTaskProps> = (props) => {
                         {props.taskTitle}
                     </span>
                     <input
-                        className="pos-rel"
-                        style={{ right: "1.6vh" }}
+                        className="pos-rel checkbox"
                         type="checkbox"
                         checked={props.checked}
                         onChange={() => {
@@ -57,8 +56,8 @@ const Task: React.FC<SubTaskProps> = (props) => {
                         }}
                     />
                     <button
-                        style={{ right: "1.5vh" }}
-                        className="dlt-btn pos-rel"
+                        id="sub-var-dlt"
+                        className="dlt-btn pos-rel var-dlt"
                         onClick={() =>
                             props.deleteTodo(
                                 props.id,

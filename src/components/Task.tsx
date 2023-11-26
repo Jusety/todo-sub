@@ -64,8 +64,7 @@ const Task: React.FC<TaskProps> = (props) => {
                         {props.taskTitle}
                     </span>
                     <input
-                        className="pos-rel"
-                        style={{ right: "2vh" }}
+                        className="pos-rel checkbox"
                         type="checkbox"
                         checked={props.checked}
                         onChange={() => {
@@ -78,14 +77,14 @@ const Task: React.FC<TaskProps> = (props) => {
                         }}
                     />
                     <button
+                        id="plus-btn"
                         className="dlt-btn pos-rel edit-btn"
                         onClick={() => props.addTodo(subNotes, setSubNotes)}
                     >
                         +
                     </button>
                     <button
-                        style={{ right: "3vh", top: "0.1vh" }}
-                        className="dlt-btn pos-rel"
+                        className="dlt-btn pos-rel var-dlt"
                         onClick={() =>
                             props.deleteTodo(
                                 props.id,
